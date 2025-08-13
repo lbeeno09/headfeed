@@ -1,0 +1,13 @@
+# Dev Env
+*.code-workspace
+.vs/
+
+# Tmp files
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Logs
+*.log
