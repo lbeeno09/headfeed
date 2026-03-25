@@ -10,9 +10,9 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine",
-				"UMG",
 				"AIModule",
-				"StateTreeEditorModule"
+				"StateTreeModule",
+				"GameplayStateTreeModule",
 			]
 		}
 	],
@@ -25,19 +25,11 @@
 			]
 		},
 		{
-			"Name": "GameplayStateTree",
+			"Name": "StateTree",
 			"Enabled": true
 		},
 		{
-			"Name": "CameraShakePreviewer",
-			"Enabled": false
-		},
-		{
-			"Name": "GameplayCameras",
-			"Enabled": false
-		},
-		{
-			"Name": "StateTree",
+			"Name": "GameplayStateTree",
 			"Enabled": true
 		}
 	]
