@@ -8,6 +8,7 @@
 #include "HFPlayer.generated.h"
 
 class UHFLifeLinkComponent;
+class AHFWeapon;
 class UCameraComponent;
 class USkeletalMeshComponent;
 
@@ -21,6 +22,11 @@ public:
 
 	virtual void ReceiveDamage(float DamageAmount) override;
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	void RequestFire();
+	void RequestStopFire();
+	void RequestReload();
+	void RequestMelee();
 
 protected:
 	virtual void BeginPlay() override;
@@ -36,5 +42,17 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Head Feed|Components", meta = (AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* ArmMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Head Feed|Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Head Feed|Components", meta = (AllowPrivateAccess = "true"))
+	USceneComponent* WeaponSlot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Head Feed|Weapon", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AHFWeapon> StartingWeaponClass;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Head Feed|Weapon", meta = (AllowPrivateAccess = "true"))
+	AHFWeapon* CurrentWeapon;
 };

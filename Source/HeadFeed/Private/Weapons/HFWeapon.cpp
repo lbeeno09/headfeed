@@ -10,37 +10,12 @@ AHFWeapon::AHFWeapon()
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
 	RootComponent = MeshComp;
 	MeshComp->SetCollisionResponseToAllChannels(ECR_Ignore);
-
-	CurrentAmmo = MaxAmmo;
-}
-
-void AHFWeapon::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	UpdateAmmoUI();
 }
 
 void AHFWeapon::PrimaryFire()
 {
-	if(CurrentAmmo > 0)
-	{
-		CurrentAmmo--;
-		UpdateAmmoUI();
-	}
-	else
-	{
-		Reload();
-	}
 }
 
 void AHFWeapon::Reload()
 {
-	CurrentAmmo = MaxAmmo;
-	UpdateAmmoUI();
-}
-
-void AHFWeapon::UpdateAmmoUI()
-{
-	OnAmmoChanged.Broadcast(CurrentAmmo, MaxAmmo);
 }

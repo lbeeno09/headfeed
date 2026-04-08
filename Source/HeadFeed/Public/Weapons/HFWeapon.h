@@ -8,8 +8,6 @@
 
 class UStaticMeshComponent;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAmmoChanged, int32, CurrentAmmo, int32, MaxAmmo);
-
 UCLASS()
 class HEADFEED_API AHFWeapon : public AActor
 {
@@ -18,22 +16,16 @@ class HEADFEED_API AHFWeapon : public AActor
 public:
 	AHFWeapon();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Head Feed|Components")
-	UStaticMeshComponent* MeshComp;
-
-	UPROPERTY(BlueprintAssignable, Category = "Head Feed|Weapon|Events")
-	FOnAmmoChanged OnAmmoChanged;
-
 	virtual void PrimaryFire();
 	virtual void Reload();
 
 protected:
-	virtual void BeginPlay() override;
-	
-	void UpdateAmmoUI();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Head Feed|Components")
+	UStaticMeshComponent* MeshComp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Head Feed|Weapon|Stats")
-	int32 MaxAmmo = 20;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Head Feed|Stats")
+	float DamageValue = 20.0f;
 
-	int32 CurrentAmmo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Head Feed|Stats")
+	float AttackRange = 10000.0f;
 };
