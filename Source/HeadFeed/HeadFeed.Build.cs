@@ -9,17 +9,14 @@ public class HeadFeed : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { 
-			"Core",
+			"Core", 
 			"CoreUObject",
 			"Engine",
 			"InputCore",
 			"EnhancedInput",
 			"AIModule",
 			"StateTreeModule",
-			"GameplayStateTreeModule",
-			"UMG",
-			"Slate",
-			"SlateCore"
+			"GameplayStateTreeModule"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

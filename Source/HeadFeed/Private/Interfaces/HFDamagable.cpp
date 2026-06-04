@@ -3,4 +3,4 @@
 
 #include "Interfaces/HFDamagable.h"
 
-// Add default functionality here for any IHFDamagable functions that are not pure virtual.
+// Add default functionality here for any IIHFDamagable functions that are not pure virtual.

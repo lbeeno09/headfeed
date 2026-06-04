@@ -16,11 +16,16 @@ class UHFDamagable : public UInterface
 /**
  * 
  */
+// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 class HEADFEED_API IHFDamagable
 {
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void ReceiveDamage(float DamageAmount) = 0;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Head Feed|Combat")
+	void ReceiveDamage(float DamageAmount, AActor* DamageCauser);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Feed|Combat")
+	float GetHealth() const;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Feed|Combat")
+	float GetMaxHealth() const;
 };
