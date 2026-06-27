@@ -6,26 +6,17 @@
 #include "GameFramework/PlayerController.h"
 #include "HFPlayerController.generated.h"
 
-class UInputMappingContext;
-class UUserWidget;
-
 /**
  * 
  */
-UCLASS(Abstract, Blueprintable)
+UCLASS()
 class HEADFEED_API AHFPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
 protected:
-	virtual void SetupInputComponent() override;
-	virtual void OnPossess(APawn* InPawn) override;
+	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Head Feed|Input|Input Mappings")
-	TArray<UInputMappingContext*> DefaultMappingContexts;
-
-	UPROPERTY(EditAnywhere, Category = "Head Feed|UI")
-	TSubclassOf<UUserWidget> HUDWidgetClass;
-	UPROPERTY()
-	UUserWidget* HUDWidgetInstance;
+	TObjectPtr<class UInputMappingContext> DefaultMappingContext;
 };

@@ -14,4 +14,12 @@ class HEADFEED_API AHFGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintImplementableEvent, Category = "Head Feed|Game Flow")
+	void DisplayEndScreen();
+
+	void GameOver();
+
+private:
+	virtual void BeginPlay() override;
 };

@@ -1,30 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Player/HFPlayerController.h"
-#include "Blueprint/UserWidget.h"
 #include "EnhancedInputSubsystems.h"
 
-void AHFPlayerController::SetupInputComponent()
+void AHFPlayerController::BeginPlay()
 {
-	if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
-	{
-		for(UInputMappingContext* CurrentContext : DefaultMappingContexts)
-		{
-			Subsystem->AddMappingContext(CurrentContext, 0);
-		}
-	}
-}
+	Super::BeginPlay();
 
-void AHFPlayerController::OnPossess(APawn* InPawn)
-{
-	Super::OnPossess(InPawn);
+	FInputModeGameOnly InputMode;
+	SetInputMode(InputMode);
+	bShowMouseCursor = false;
 
-	if(IsLocalController() && HUDWidgetClass)
+	if(ULocalPlayer* LocalPlayer = GetLocalPlayer())
 	{
-		HUDWidgetInstance = CreateWidget<UUserWidget>(this, HUDWidgetClass);
-		if(HUDWidgetInstance)
+		if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer))
 		{
-			HUDWidgetInstance->AddToViewport();
+			if(DefaultMappingContext)
+			{
+				Subsystem->AddMappingContext(DefaultMappingContext, 0);
+			}
 		}
 	}
 }
