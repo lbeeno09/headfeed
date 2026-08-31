@@ -14,6 +14,10 @@ class HEADFEED_API URootMainMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void HandleEscapeAction();
+
 protected:
 	virtual void NativeConstruct() override;
 

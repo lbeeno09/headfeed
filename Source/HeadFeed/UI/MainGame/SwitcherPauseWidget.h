@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -18,6 +18,11 @@ class HEADFEED_API USwitcherPauseWidget : public UUserWidget
 	
 public:
 	FOnPauseResumeRequested OnPauseResumeRequested;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void TraversePauseTree();
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	bool IsPauseMenu();
 
 protected:
 	virtual void NativeConstruct() override;

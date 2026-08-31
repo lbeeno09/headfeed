@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -14,11 +14,17 @@ class HEADFEED_API URootMainGameWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void TraversePauseTree();
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	bool IsGameHUD();
+
 protected:
 	virtual void NativeConstruct() override;
 
 	UPROPERTY(meta = (BindWidget))
-	TObjectPtr<class UOverlay> OverlayRoot;
+	TObjectPtr<class UWidgetSwitcher> WidgetSwitcherRoot;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UGameUIWidget> WBPGameUI;
@@ -28,12 +34,8 @@ protected:
 	TObjectPtr<class UGameOverWidget> WBPGameOver;
 
 private:
-	bool bIsMenuOpen = false;
-
 	UFUNCTION()
-	void HandleGameOverSwitch(float Percent);
+	void HandleResume();
 	UFUNCTION()
-	void HandlePauseInput();
-	UFUNCTION()
-	void ClosePauseMenu();
+	void HandleGameOver(float Percent);
 };

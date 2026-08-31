@@ -17,6 +17,7 @@ class HEADFEED_API UCreditsWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnCreditsReturnClicked OnCreditsReturnClicked;
 
 protected:

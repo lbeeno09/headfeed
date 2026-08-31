@@ -1,7 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "UI/MainMenu/MainMenuWidget.h"
 #include "Components/Button.h"
+#include "Components/WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -17,7 +18,7 @@ void UMainMenuWidget::NativeConstruct()
 
 void UMainMenuWidget::OnButtonPlayClicked()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("L_FlatMap"));
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("L_Level01"), true, TEXT("?game=MainGame"));
 }
 
 void UMainMenuWidget::OnButtonSettingsClicked()

@@ -32,3 +32,18 @@ void URootMainMenuWidget::SwitchToCreditsView()
 {
 	WidgetSwitcherRoot->SetActiveWidgetIndex(EMenuIndex::Credits);
 }
+
+void URootMainMenuWidget::HandleEscapeAction()
+{
+	switch(WidgetSwitcherRoot->GetActiveWidgetIndex())
+	{
+		case 0:
+			break;
+		case 1:
+		case 2:
+			SwitchToMainMenuView();
+			break;
+		default:
+			break;
+	}
+}

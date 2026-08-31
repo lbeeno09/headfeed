@@ -17,6 +17,7 @@ class HEADFEED_API USettingsWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnSettingsReturnClicked OnSettingsReturnClicked;
 
 protected:

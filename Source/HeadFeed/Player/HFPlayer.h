@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -13,7 +13,6 @@
 class UInputAction;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewPercent);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPauseInputTriggered);
 
 UCLASS()
 class HEADFEED_API AHFPlayer : public ACharacter
@@ -23,9 +22,6 @@ class HEADFEED_API AHFPlayer : public ACharacter
 public:
 	AHFPlayer();
 
-	UFUNCTION(BlueprintCallable, Category = "Head Feed|Gameplay")
-	void StartGameplay();
-
 	void DecreaseHealth(float DamageAmount);
 	void RegainHealth();
 
@@ -33,7 +29,6 @@ public:
 	UWeaponComponent* GetWeaponComponent() { return WeaponComponent; }
 	UMeleeComponent* GetMeleeComponent() { return MeleeComponent; }
 
-	FOnPauseInputTriggered OnPauseInputTriggered;
 	FOnHealthChanged OnHealthChanged;
 
 protected:
@@ -49,8 +44,6 @@ protected:
 	TObjectPtr<UInputAction> MoveAction;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Head Feed|Input")
 	TObjectPtr<UInputAction> JumpAction;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Head Feed|Input")
-	TObjectPtr<UInputAction> PauseAction;
 	// Weapon
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Head Feed|Input")
 	TObjectPtr<UInputAction> MeleeAction;
@@ -71,8 +64,6 @@ protected:
 
 	// Gameplay Stats
 	// Game Loop 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire Escape|Runtime")
-	bool bIsGameplayActive = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire Escape|Runtime|Health")
 	float CurrentHealth;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fire Escape|Runtime|Health")
@@ -88,5 +79,4 @@ private:
 	void ShootComplete();
 	void Reload();
 	void Throw();
-	void Pause();
 };

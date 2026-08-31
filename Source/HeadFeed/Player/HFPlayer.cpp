@@ -1,7 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Player/HFPlayer.h"
-#include "Core/MainGameMode.h"
+#include "Core/MainGame/MainGameMode.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -30,17 +30,13 @@ void AHFPlayer::BeginPlay()
 	Super::BeginPlay();
 
 	CurrentHealth = MaxHealth;
-	bIsGameplayActive = true;
 }
 
 void AHFPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(bIsGameplayActive)
-	{
-		DecreaseHealth(HealthDecayRate * DeltaTime);
-	}
+	DecreaseHealth(HealthDecayRate * DeltaTime);
 }
 
 void AHFPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -77,10 +73,6 @@ void AHFPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		if(ReloadAction)
 		{
 			EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &AHFPlayer::Reload);
-		}
-		if(PauseAction)
-		{
-			EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Triggered, this, &AHFPlayer::Pause);
 		}
 		if(ThrowAction)
 		{
@@ -170,14 +162,4 @@ void AHFPlayer::Reload()
 void AHFPlayer::Throw()
 {
 	WeaponComponent->ThrowWeapon();
-}
-
-void AHFPlayer::StartGameplay()
-{
-	bIsGameplayActive = true;
-}
-
-void AHFPlayer::Pause()
-{
-	OnPauseInputTriggered.Broadcast();
 }

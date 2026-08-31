@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "UI/MainGame/SwitcherPauseWidget.h"
 #include "UI/MainGame/PauseWidget.h"
@@ -14,6 +14,23 @@ void USwitcherPauseWidget::NativeConstruct()
 	WBPSettings->OnSettingsReturnClicked.AddDynamic(this, &USwitcherPauseWidget::SwitchToPauseView);
 
 	SwitchToPauseView();
+}
+
+void USwitcherPauseWidget::TraversePauseTree()
+{
+	if(WidgetSwitcherPause->GetActiveWidgetIndex() == 0)
+	{
+		// stub
+	}
+	else if(WidgetSwitcherPause->GetActiveWidgetIndex() == 1)
+	{
+		WidgetSwitcherPause->SetActiveWidgetIndex(EPauseIndex::Pause);
+	}
+}
+
+bool USwitcherPauseWidget::IsPauseMenu()
+{
+	return WidgetSwitcherPause->GetActiveWidgetIndex() == 0;
 }
 
 void USwitcherPauseWidget::HandleResumeSignal()

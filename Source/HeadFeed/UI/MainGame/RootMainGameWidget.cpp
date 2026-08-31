@@ -1,11 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "UI/MainGame/RootMainGameWidget.h"
 #include "UI/MainGame/GameUIWidget.h"
 #include "UI/MainGame/SwitcherPauseWidget.h"
 #include "UI/MainGame/GameOverWidget.h"
 #include "Player/HFPlayer.h"
-#include "Components/Overlay.h"
+#include "Core/MainGame/MainGamePlayerController.h"
+#include "Components/WidgetSwitcher.h"
 
 void URootMainGameWidget::NativeConstruct()
 {
@@ -13,59 +14,56 @@ void URootMainGameWidget::NativeConstruct()
 
 	if(AHFPlayer* Player = Cast<AHFPlayer>(GetOwningPlayerPawn()))
 	{
-		Player->OnPauseInputTriggered.AddDynamic(this, &URootMainGameWidget::HandlePauseInput);
-		Player->OnHealthChanged.AddDynamic(this, &URootMainGameWidget::HandleGameOverSwitch);
+		Player->OnHealthChanged.AddDynamic(this, &URootMainGameWidget::HandleGameOver);
 	}
 
 	//WBPGameUIWidget
-	WBPSwitcherPause->OnPauseResumeRequested.AddDynamic(this, &URootMainGameWidget::ClosePauseMenu);
-	WBPSwitcherPause->SetVisibility(ESlateVisibility::Collapsed);
-	WBPGameOver->SetVisibility(ESlateVisibility::Collapsed);
+	WBPSwitcherPause->OnPauseResumeRequested.AddDynamic(this, &URootMainGameWidget::HandleResume);
 }
 
-void URootMainGameWidget::HandleGameOverSwitch(float Percent)
+void URootMainGameWidget::TraversePauseTree()
+{
+	if(WidgetSwitcherRoot->GetActiveWidgetIndex() == 0)
+	{
+		WidgetSwitcherRoot->SetActiveWidgetIndex(1);
+	}
+	else if(WidgetSwitcherRoot->GetActiveWidgetIndex() == 1)
+	{
+		if(WBPSwitcherPause->IsPauseMenu())
+		{
+			WidgetSwitcherRoot->SetActiveWidgetIndex(0);
+		}
+
+		WBPSwitcherPause->TraversePauseTree();
+	}
+}
+
+bool URootMainGameWidget::IsGameHUD()
+{
+	return WidgetSwitcherRoot->GetActiveWidgetIndex() == 0;
+}
+
+void URootMainGameWidget::HandleResume()
+{
+	WidgetSwitcherRoot->SetActiveWidgetIndex(0);
+
+	AMainGamePlayerController* MainController = Cast<AMainGamePlayerController>(GetOwningPlayer());
+	if(MainController)
+	{
+		MainController->UpdateInputMode(true);
+	}
+}
+
+void URootMainGameWidget::HandleGameOver(float Percent)
 {
 	if(Percent <= 0.0f)
 	{
-		WBPGameOver->SetVisibility(ESlateVisibility::Visible);
+		WidgetSwitcherRoot->SetActiveWidgetIndex(2);
 
-		APlayerController* PC = GetOwningPlayer();
-		FInputModeGameAndUI InputMode;
-		InputMode.SetWidgetToFocus(WBPSwitcherPause->TakeWidget());
-		PC->SetInputMode(InputMode);
-		PC->SetShowMouseCursor(true);
-		PC->SetPause(true);
+		AMainGamePlayerController* MainController = Cast<AMainGamePlayerController>(GetOwningPlayer());
+		if(MainController)
+		{
+			MainController->UpdateInputMode(false);
+		}
 	}
-}
-
-void URootMainGameWidget::HandlePauseInput()
-{
-	if(bIsMenuOpen)
-	{
-		ClosePauseMenu();
-	}
-	else
-	{
-		bIsMenuOpen = true;
-		WBPSwitcherPause->SetVisibility(ESlateVisibility::Visible);
-
-		APlayerController* PC = GetOwningPlayer();
-		FInputModeGameAndUI InputMode;
-		InputMode.SetWidgetToFocus(WBPSwitcherPause->TakeWidget());
-		PC->SetInputMode(InputMode);
-		PC->SetShowMouseCursor(true);
-		PC->SetPause(true);
-	}
-}
-
-void URootMainGameWidget::ClosePauseMenu()
-{
-	bIsMenuOpen = false;
-	WBPSwitcherPause->SetVisibility(ESlateVisibility::Collapsed);
-
-	APlayerController* PC = GetOwningPlayer();
-	FInputModeGameOnly InputMode;
-	PC->SetInputMode(InputMode);
-	PC->SetShowMouseCursor(false);
-	PC->SetPause(false);
 }
